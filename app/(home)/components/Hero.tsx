@@ -38,7 +38,7 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-6 leading-[1.1]"
           >
-            Give Hope to Animals in Need
+          Where Every Soul Finds Refuge
           </motion.h1>
 
           <motion.p
