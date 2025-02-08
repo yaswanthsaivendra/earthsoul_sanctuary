@@ -1,10 +1,16 @@
 "use client"
 
-import { motion } from "framer-motion"
 import { Heart, Home, Leaf, ShieldCheck } from "lucide-react"
 import CountUp from 'react-countup'
+import { motion } from "framer-motion"
+import { useInView } from 'react-intersection-observer'
 
 export function LiveStats() {
+  const { ref, inView } = useInView({
+    threshold: 0.3,
+    triggerOnce: true
+  });
+
   const stats = [
     {
       icon: Heart,
@@ -41,14 +47,9 @@ export function LiveStats() {
   ]
 
   return (
-    <section className="py-24 bg-white">
+    <section id="stats" className="py-12 md:py-24 bg-white scroll-mt-20">
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center max-w-2xl mx-auto mb-16"
-        >
+        <div className="text-center max-w-2xl mx-auto mb-16">
           <span className="inline-block px-4 py-1.5 bg-sanctuary-primary/10 text-sanctuary-primary font-medium tracking-wide text-sm uppercase rounded-full mb-4">
             Our Impact
           </span>
@@ -58,16 +59,16 @@ export function LiveStats() {
           <p className="text-lg text-sanctuary-text/70">
             Through dedication and your support, we continue to grow our impact on animal welfare.
           </p>
-        </motion.div>
+        </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div ref={ref} className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
               className="relative group"
             >
               <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white to-gray-50 shadow-sm -z-10" />
@@ -77,7 +78,10 @@ export function LiveStats() {
                 </div>
                 <div className="space-y-2">
                   <div className={`${stat.color} text-4xl font-display font-bold`}>
-                    <CountUp end={stat.value} duration={2.5} />
+                    {inView && (
+                      <CountUp start={0} end={stat.value} duration={2.5} />
+                    )}
+                    {!inView && '0'}
                   </div>
                   <h3 className="text-lg font-bold text-sanctuary-text">
                     {stat.label}
