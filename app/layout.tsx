@@ -31,7 +31,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${outfit.variable} ${dmSans.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${outfit.variable} ${dmSans.variable} font-sans antialiased max-w-[100vw] overflow-x-hidden`}>
         <Navbar />
         {children}
         <Footer />
